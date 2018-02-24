@@ -22,9 +22,6 @@ df = pd.read_csv('Outbreak.csv',sep=',')
 for j in range(len(df)):
     df.set_value(j,'Cases',np.float(df['Cases'][j].replace(',','')))
 
-casesdf = df[['Date','Governorate','Cases']]
-
-
 mapping = {"Amran": (16.15,43.92),
            "Al Mahwit":(15.38,43.57),
            "Al Dhale'e":(13.83,44.74),
@@ -54,7 +51,7 @@ areas = ['Amran', 'Al Mahwit', "Al Dhale'e", 'Hajjah', "Sana'a", 'Dhamar', 'Abya
 weighted_data = np.empty(len(areas),dtype=np.float64)
 
 for i,area in enumerate (areas):
-    data = df[df['Governorate']==area]['Cases']
+    data = df[df['Governorate']==area]['CFR (%)']
 
     weights = get_temporal_weights(len(data))
 
