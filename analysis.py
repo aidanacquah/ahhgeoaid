@@ -19,6 +19,9 @@ def get_temporal_weights(n_points):
 
 df = pd.read_csv('Outbreak.csv',sep=',')
 
+for j in range(len(df)):
+    df.set_value(j,'Cases',np.float(df['Cases'][j].replace(',','')))
+
 casesdf = df[['Date','Governorate','Cases']]
 
 
@@ -46,4 +49,16 @@ mapping = {"Amran": (16.15,43.92),
            "Say'on":(15.94,48.80)
            }
 
-casedf = casesdf.replace({'Governorate': mapping})
+areas = ['Amran', 'Al Mahwit', "Al Dhale'e", 'Hajjah', "Sana'a", 'Dhamar', 'Abyan', 'Al Hudaydah', 'Al Bayda', 'Amanat Al Asimah', 'Al Jawf', 'Raymah', 'Lahj', 'Aden', 'Ibb', 'Taizz', 'Marib', "Sa'ada", 'Al Maharah', 'Shabwah', 'Moklla', "Say'on"]
+
+weighted_data = np.empty(len(areas),dtype=np.float64)
+
+for i,area in enumerate (areas):
+    data = df[df['Governorate']==area]['Cases']
+
+    weights = get_temporal_weights(len(data))
+
+    weighted_data[i] = np.dot(data,weights)
+
+
+    # = np.dot(data,weights)
