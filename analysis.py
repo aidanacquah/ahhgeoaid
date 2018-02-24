@@ -8,6 +8,15 @@ Created on Sat Feb 24 11:23:47 2018
 import numpy as np
 import pandas as pd
 
+def get_temporal_weights(n_points):
+    weights = np.zeros(n_points)
+    for i in range(n_points):
+        weights[i] = (1.0/(i+1))
+
+    weights = weights/np.sum(weights)
+    
+    return weights
+
 df = pd.read_csv('Outbreak.csv',sep=',')
 
 casesdf = df[['Date','Governorate','Cases']]
